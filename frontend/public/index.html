@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>WellnessApp</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="gradient"></div>
+  <div class="app">
+
+    <!-- LOGIN -->
+    <section id="view-login" class="view view--active">
+      <div class="auth-card">
+        <div class="auth-avatar"><span class="icon">👤</span></div>
+        <h1>Bienvenido de vuelta</h1>
+        <p class="auth-subtitle">Inicia sesión para continuar con tu bienestar</p>
+        <form id="loginForm" class="auth-form">
+          <label class="field">
+            <span>Correo electrónico</span>
+            <input type="email" id="loginEmail" placeholder="tú@correo.com" required>
+          </label>
+          <label class="field">
+            <span>Contraseña</span>
+            <input type="password" id="loginPassword" placeholder="••••••••" required>
+          </label>
+          <button type="submit" class="btn btn--primary">Iniciar sesión</button>
+          <p id="loginStatus" class="status"></p>
+        </form>
+        <p class="auth-switch">¿No tienes una cuenta?
+          <button type="button" class="link" data-switch="register">Regístrate aquí</button>
+        </p>
+      </div>
+    </section>
+
+    <!-- REGISTER -->
+    <section id="view-register" class="view">
+      <div class="auth-card">
+        <div class="auth-avatar"><span class="icon">🆕</span></div>
+        <h1>Crear cuenta</h1>
+        <p class="auth-subtitle">Únete para comenzar a monitorear tu bienestar</p>
+        <form id="registerForm" class="auth-form">
+          <label class="field">
+            <span>Nombre completo</span>
+            <input type="text" id="registerName" placeholder="Tu nombre">
+          </label>
+          <label class="field">
+            <span>Correo electrónico</span>
+            <input type="email" id="registerEmail" placeholder="tú@correo.com" required>
+          </label>
+          <label class="field">
+            <span>Edad</span>
+            <input type="number" id="registerAge" placeholder="18" min="15" max="100">
+          </label>
+          <label class="field">
+            <span>Nivel educativo</span>
+            <select id="registerEducation">
+              <option value="">Selecciona nivel</option>
+              <option>Secundaria</option>
+              <option>Bachillerato</option>
+              <option>Universidad</option>
+              <option>Postgrado</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Contraseña</span>
+            <input type="password" id="registerPassword" placeholder="••••••••" required>
+          </label>
+          <label class="field">
+            <span>Confirmar contraseña</span>
+            <input type="password" id="registerConfirm" placeholder="••••••••" required>
+          </label>
+          <button type="submit" class="btn btn--primary">Crear cuenta</button>
+          <p id="registerStatus" class="status"></p>
+        </form>
+        <p class="auth-switch">¿Ya tienes una cuenta?
+          <button type="button" class="link" data-switch="login">Inicia sesión aquí</button>
+        </p>
+      </div>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section id="view-dashboard" class="view">
+      <header class="topbar">
+        <div>
+          <h2 id="dashboardGreeting">Hola</h2>
+          <p class="topbar-date" id="dashboardDate"></p>
+        </div>
+        <button class="btn btn--ghost hidden" id="btnOpenAdmin">Admin</button>
+        <button class="btn btn--ghost" id="btnLogout">Cerrar sesión</button>
+      </header>
+
+      <section class="hero-card">
+        <div>
+          <p class="hero-subtitle">Tu bienestar es importante</p>
+          <h3>Check-in de Bienestar</h3>
+          <p class="hero-description">Toma 2 minutos para cuidar tu salud mental y emocional.</p>
+          <button class="btn btn--primary" id="btnStartGad7">Empezar ahora</button>
+          <span class="hero-points">+10 puntos al completar</span>
+        </div>
+        <div class="hero-illustration" aria-hidden="true">💫</div>
+      </section>
+
+      <section class="insights" id="insightsPanel">
+        <article class="insight-card insight-card--empty" id="cardGad7">
+          <header class="insight-head">
+            <div>
+              <h3>Seguimiento GAD-7</h3>
+              <p class="insight-subtitle">Niveles de ansiedad en el tiempo</p>
+            </div>
+            <span class="insight-badge">Ansiedad</span>
+          </header>
+          <div class="insight-body">
+            <svg id="chartGad7" class="insight-chart" viewBox="0 0 100 40" preserveAspectRatio="none" role="img" aria-label="Evolución de puntajes GAD-7"></svg>
+            <div class="insight-empty">Aún no tienes resultados registrados.</div>
+            <dl class="insight-stats">
+              <div><dt>Evaluaciones</dt><dd id="gadCount">0</dd></div>
+              <div><dt>Promedio</dt><dd id="gadAverage">0</dd></div>
+              <div><dt>Tendencia</dt><dd id="gadTrend">—</dd></div>
+            </dl>
+            <p class="insight-last" id="gadLast">Cuando completes evaluaciones verás aquí el detalle más reciente.</p>
+          </div>
+        </article>
+
+        <article class="insight-card insight-card--empty" id="cardPhq9">
+          <header class="insight-head">
+            <div>
+              <h3>Seguimiento PHQ-9</h3>
+              <p class="insight-subtitle">Indicadores de estado de ánimo</p>
+            </div>
+            <span class="insight-badge">Ánimo</span>
+          </header>
+          <div class="insight-body">
+            <svg id="chartPhq9" class="insight-chart" viewBox="0 0 100 40" preserveAspectRatio="none" role="img" aria-label="Evolución de puntajes PHQ-9"></svg>
+            <div class="insight-empty">Registra tus primeros resultados para ver tu progreso.</div>
+            <dl class="insight-stats">
+              <div><dt>Evaluaciones</dt><dd id="phqCount">0</dd></div>
+              <div><dt>Promedio</dt><dd id="phqAverage">0</dd></div>
+              <div><dt>Tendencia</dt><dd id="phqTrend">—</dd></div>
+            </dl>
+            <p class="insight-last" id="phqLast">Tus resultados más recientes aparecerán aquí al completar evaluaciones.</p>
+          </div>
+        </article>
+      </section>
+
+      <section class="quick-links">
+        <article class="quick-card">
+          <div class="quick-icon">☁️</div>
+          <div>
+            <h4>Comunidad</h4>
+            <p>Conecta con otros estudiantes y comparte estrategias.</p>
+          </div>
+          <button class="btn btn--light" id="btnComingSoon">Ver comunidad</button>
+        </article>
+
+        <article class="quick-card quick-card--action">
+          <div class="quick-icon">🩺</div>
+          <div>
+            <h4>Evaluaciones clínicas</h4>
+            <p>Explora las evaluaciones PHQ-9 y GAD-7 para monitorear tu progreso.</p>
+          </div>
+          <button class="btn btn--light" id="btnStartPhq9">Iniciar PHQ-9</button>
+        </article>
+
+        <article class="quick-card">
+          <div class="quick-icon">🧰</div>
+          <div>
+            <h4>Recursos</h4>
+            <p>Tips y herramientas útiles seleccionadas por especialistas.</p>
+          </div>
+          <button class="btn btn--light" id="btnOpenResources">Ver recursos</button>
+        </article>
+
+        <article class="quick-card quick-card--action">
+          <div class="quick-icon">📚</div>
+          <div>
+            <h4>Historial de evaluaciones</h4>
+            <p>Consulta tus resultados previos y notas personales.</p>
+          </div>
+          <button class="btn btn--light" id="btnOpenHistory">Ver historial</button>
+        </article>
+      </section>
+
+      <section id="historyPanel" class="history hidden">
+        <div class="history-header">
+          <h3>Tu historial reciente</h3>
+          <button class="link" id="btnCloseHistory">Ocultar</button>
+        </div>
+        <ul id="historyList" class="history-list"></ul>
+      </section>
+    </section>
+
+    <!-- ASSESSMENT -->
+    <section id="view-assessment" class="view">
+      <header class="assessment-header">
+        <button class="back" id="btnBackToDashboard" aria-label="Volver">←</button>
+        <div>
+          <p class="assessment-title" id="assessmentTitle">Check-in de Bienestar</p>
+          <p class="assessment-step" id="assessmentStep"></p>
+        </div>
+        <div class="progress"><div class="progress-bar" id="assessmentProgress"></div></div>
+      </header>
+      <section class="question-card" id="questionCard"></section>
+      <footer class="assessment-footer">
+        <button class="btn btn--ghost" id="btnPrevQuestion">Anterior</button>
+        <div class="assessment-points">+10 puntos al completar · +5 extra si terminas en menos de 2 min</div>
+        <button class="btn btn--primary" id="btnNextQuestion">Siguiente</button>
+      </footer>
+    </section>
+
+    <!-- RESULT -->
+    <section id="view-result" class="view">
+      <div class="result-card">
+        <div class="result-icon">✨</div>
+        <h2 id="resultTitle">¡Bien hecho!</h2>
+        <p id="resultSummary" class="result-summary"></p>
+        <ul id="resultDetails" class="result-details"></ul>
+        <section class="result-analytics" id="resultAnalytics">
+          <div class="result-chart-panel">
+            <h3>Tus respuestas</h3>
+            <div class="result-chart" id="resultAnswersChart" aria-live="polite"></div>
+            <div class="result-chart-scale" aria-hidden="true"><span>0</span><span>1</span><span>2</span><span>3</span></div>
+          </div>
+          <div class="result-stats-panel">
+            <h3>Estadísticas clave</h3>
+            <ul class="result-stats">
+              <li><span>Puntaje promedio por pregunta</span><strong id="resultAverage">-</strong></li>
+              <li><span>Respuesta más alta</span><strong id="resultMax">-</strong></li>
+              <li><span>Áreas a trabajar</span><strong id="resultFocus">-</strong></li>
+            </ul>
+          </div>
+        </section>
+        <div class="result-actions">
+          <button class="btn btn--primary" id="btnResultDashboard">Volver al inicio</button>
+          <button class="btn btn--light" id="btnResultHistory">Ver historial</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ADMIN -->
+    <section id="view-admin" class="view">
+      <header class="topbar">
+        <div>
+          <h2>Panel de Administración</h2>
+          <p class="topbar-date">Herramientas solo para administradores</p>
+        </div>
+        <div class="admin-actions">
+          <button class="btn btn--ghost" id="btnBackFromAdmin">Volver</button>
+        </div>
+      </header>
+
+      <div class="admin-grid">
+        <article class="admin-card">
+          <h3>Promover usuario a ADMIN</h3>
+          <p>Usa el <strong>ID</strong> del usuario.</p>
+          <form id="formPromote" class="admin-form">
+            <label class="field">
+              <span>ID de usuario</span>
+              <input type="number" id="promoteUserId" placeholder="Ej. 2" min="1" required>
+            </label>
+            <button type="submit" class="btn btn--primary">Promover</button>
+            <p id="promoteStatus" class="status"></p>
+          </form>
+        </article>
+
+        <article class="admin-card">
+          <h3>Token actual (payload)</h3>
+          <p>Útil para verificar <code>role</code>, <code>email</code>, etc.</p>
+          <pre id="jwtPayload" class="admin-pre">—</pre>
+          <div class="admin-row">
+            <button class="btn btn--light" id="btnRefreshPayload">Refrescar payload</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- RESOURCES (ÚNICA) -->
+    <section id="view-resources" class="view hidden">
+      <header class="topbar">
+        <div>
+          <h2>Recursos</h2>
+          <p class="topbar-date">Materiales recomendados por especialistas</p>
+        </div>
+        <button class="btn btn--ghost" id="btnBackFromResources">Volver</button>
+      </header>
+
+      <!-- Uploader (visible para ADMIN; el JS le quita/añade .hidden) -->
+      <div id="resourceUploader" class="admin-card hidden" style="margin-bottom:16px;">
+        <h3>Subir recurso</h3>
+        <form id="formResourceUpload" class="admin-form" enctype="multipart/form-data">
+          <label class="field"><span>Título</span><input id="resTitle" required></label>
+          <label class="field"><span>Descripción</span><input id="resDesc"></label>
+          <label class="field"><span>Categoría</span><input id="resCat" placeholder="Guías, Sueño, Ansiedad..."></label>
+          <label class="field"><span>Archivo (opcional)</span><input type="file" id="resFile" accept=".pdf,.png,.jpg,.jpeg,.webp,.mp4,.txt"></label>
+          <button class="btn btn--primary" type="submit">Publicar</button>
+          <p id="resUploadStatus" class="status"></p>
+        </form>
+      </div>
+
+      <!-- Lista (ÚNICA) -->
+      <div id="resourcesList" class="insights"></div>
+    </section>
+
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- FAB & Help panels (sin cambios) -->
+  <button id="helpFab" class="fab" aria-label="Ayuda y apoyo"><span aria-hidden="true">❔</span></button>
+  <div id="helpBackdrop" class="help-backdrop" hidden></div>
+
+  <section id="helpPanel" class="help-panel" role="dialog" aria-modal="true" aria-labelledby="helpTitle" hidden>
+    <header class="help-header">
+      <h3 id="helpTitle">💜 Ayuda y Apoyo</h3>
+      <button id="helpClose" class="help-close">×</button>
+    </header>
+    <p class="help-softmsg">🌿 Respira suavemente… estás a salvo. Todo va a estar bien.</p>
+    <p class="help-subtitle">Recursos disponibles para ti</p>
+
+    <div class="help-actions">
+      <article class="help-item help-item--danger">
+        <div class="help-item__icon">📞</div>
+        <div class="help-item__content">
+          <h4>Línea de Crisis</h4>
+          <p>Apoyo inmediato 24/7</p>
+        </div>
+        <a href="tel:123" class="btn btn--primary help-cta">Llamar ahora</a>
+      </article>
+
+      <article class="help-item">
+        <div class="help-item__icon">📘</div>
+        <div class="help-item__content">
+          <h4>Primeros pasos</h4>
+          <p>Cómo usar la aplicación</p>
+        </div>
+        <button id="openIntro" class="btn btn--light help-cta">Ver guía</button>
+      </article>
+
+      <article class="help-item">
+        <div class="help-item__icon">🙌</div>
+        <div class="help-item__content">
+          <h4>Tips de Asesoramiento</h4>
+          <p>Maneja mejor tu tiempo</p>
+        </div>
+        <button id="openCoaching" class="btn btn--light help-cta">Abrir tips</button>
+      </article>
+    </div>
+
+    <h4 class="help-tips-title">💡 Tips Rápidos</h4>
+    <ul class="help-tips">
+      <li>🫁 <strong>Respira profundo:</strong> Inhala 4, mantén 7, exhala 8.</li>
+      <li>🧠 <strong>Señales de alerta:</strong> irritabilidad constante o falta de sueño.</li>
+      <li>🤝 <strong>Pide ayuda:</strong> Hablar con alguien siempre ayuda.</li>
+      <li>🚨 <strong>En crisis:</strong> contacta emergencias de tu zona.</li>
+    </ul>
+  </section>
+
+  <section id="introPanel" class="mini-panel" hidden>
+    <header class="mini-header">
+      <h3>📘 Primeros Pasos</h3>
+      <button data-close class="mini-close">×</button>
+    </header>
+    <ul class="mini-list">
+      <li>✅ Completa tu primer check-in de bienestar.</li>
+      <li>✅ Revisa tu historial y progreso emocional.</li>
+      <li>✅ Explora recursos y herramientas útiles.</li>
+      <li>✅ Ajusta notificaciones según tus preferencias.</li>
+    </ul>
+  </section>
+
+  <section id="coachingPanel" class="mini-panel" hidden>
+    <header class="mini-header">
+      <h3>🙌 Tips de Asesoramiento</h3>
+      <button data-close class="mini-close">×</button>
+    </header>
+    <ul class="mini-list">
+      <li>🕒 Organiza tu día en bloques de 25 minutos.</li>
+      <li>📵 Aleja distracciones mientras estudias.</li>
+      <li>⏳ Haz pausas activas para evitar agotamiento.</li>
+      <li>🤸 Estira o camina 5 minutos cada hora.</li>
+    </ul>
+  </section>
+
+  <!-- COMING SOON -->
+<section id="view-comingsoon" class="view hidden">
+  <header class="topbar">
+    <div>
+      <h2>Comunidad</h2>
+      <p class="topbar-date">Espacio social de WellnessApp</p>
+    </div>
+    <button class="btn btn--ghost" id="btnBackFromComingSoon">Volver</button>
+  </header>
+
+  <div class="hero-card" style="text-align:center; min-height: 50vh; align-items:center; justify-content:center;">
+    <div>
+      <div style="font-size:64px; line-height:1; margin-bottom:8px;" aria-hidden="true">🚧</div>
+      <h3>Coming soon…</h3>
+      <p class="hero-description">
+        Estamos construyendo una experiencia para que conectes, compartas y crezcas con tu comunidad.
+      </p>
+      <p class="hero-points">¡Vuelve pronto! ✨</p>
+    </div>
+  </div>
+</section>
+
+  <script src="js/app.js?v=2"></script>
+</body>
+</html>
